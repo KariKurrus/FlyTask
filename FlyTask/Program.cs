@@ -91,7 +91,7 @@
 
         public double FlyTo(Coordinate beginPoint, Coordinate endPoint)
         {
-            double wayDistance = Math.Sqrt(Math.Pow(endPoint.XAxis - beginPoint.XAxis, 2) + Math.Pow(endPoint.YAxis - beginPoint.YAxis, 2) + Math.Pow(endPoint.ZAxis - beginPoint.ZAxis, 2)); ;
+            double wayDistance = Math.Sqrt(Math.Pow(endPoint.XAxis - beginPoint.XAxis, 2) + Math.Pow(endPoint.YAxis - beginPoint.YAxis, 2) + Math.Pow(endPoint.ZAxis - beginPoint.ZAxis, 2));
 
             return wayDistance;
         }
@@ -105,6 +105,37 @@
         }
     }
 
+    public class Airplane : IFlyable
+    {
+        public Coordinate CurrentPosition { get; set; }
+        public int Speed { get; set; }
+
+        public Airplane(int speed)
+        {
+            CurrentPosition = new Coordinate(0, 0, 0);
+            Speed = speed;
+        }
+
+        public double FlyTo(Coordinate beginPoint, Coordinate endPoint)
+        {
+            double wayDistance = Math.Sqrt(Math.Pow(endPoint.XAxis - beginPoint.XAxis, 2) + Math.Pow(endPoint.YAxis - beginPoint.YAxis, 2) + Math.Pow(endPoint.ZAxis - beginPoint.ZAxis, 2)); ;
+
+            return wayDistance;
+        }
+        public double GetFlyTime(Coordinate beginPoint, Coordinate endPoint)
+        {
+            double flyTime = 0;
+
+            for(double i = FlyTo(beginPoint,endPoint);i>=0;i-=10)
+            {
+                flyTime = FlyTo(beginPoint, endPoint) / Speed;
+                Speed += 10;
+            }
+
+            return flyTime;
+        }
+
+    }
     internal class Program
     {
         public void BirdRealistaion()
@@ -123,11 +154,27 @@
             Console.WriteLine($"It will take {Bird.GetFlyTime(BeginPoint, EndPoint)} hours");
         }
 
+        public void AirplaneRealisation()
+        {
+            var Airplane = new Airplane(200);
+
+            var BeginPoint = new Coordinate(230, 130, 600);
+
+            var EndPoint = new Coordinate(620, 201, 745);
+
+            Console.WriteLine($"If airplane will fly from point {BeginPoint} to point {EndPoint}");
+            Console.WriteLine($"With speed - {Airplane.Speed} km/h and increasing it every 10 km for 10km/h");
+            Console.WriteLine($"Way distance is {Airplane.FlyTo(BeginPoint, EndPoint)} km");
+            Console.WriteLine($"It will take {Airplane.GetFlyTime(BeginPoint, EndPoint)} hours");
+        }
+
         static void Main(string[] args)
         {
             var program = new Program();
 
             program.BirdRealistaion();
+            Console.WriteLine();
+            program.AirplaneRealisation();
         }
     }
 }
