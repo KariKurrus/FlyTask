@@ -118,7 +118,7 @@
 
         public double FlyTo(Coordinate beginPoint, Coordinate endPoint)
         {
-            double wayDistance = Math.Sqrt(Math.Pow(endPoint.XAxis - beginPoint.XAxis, 2) + Math.Pow(endPoint.YAxis - beginPoint.YAxis, 2) + Math.Pow(endPoint.ZAxis - beginPoint.ZAxis, 2)); ;
+            double wayDistance = Math.Sqrt(Math.Pow(endPoint.XAxis - beginPoint.XAxis, 2) + Math.Pow(endPoint.YAxis - beginPoint.YAxis, 2) + Math.Pow(endPoint.ZAxis - beginPoint.ZAxis, 2));
 
             return wayDistance;
         }
@@ -126,7 +126,7 @@
         {
             double flyTime = 0;
 
-            for(double i = FlyTo(beginPoint,endPoint);i>=0;i-=10)
+            for (double i = FlyTo(beginPoint, endPoint); i >= 0; i -= 10)
             {
                 flyTime = FlyTo(beginPoint, endPoint) / Speed;
                 Speed += 10;
@@ -134,7 +134,41 @@
 
             return flyTime;
         }
+    }
 
+    public class Drone : IFlyable
+    {
+        public Coordinate CurrentPosition { get; set; }
+        public int Speed { get; set; }
+
+        public Drone(int speed)
+        {
+            CurrentPosition = new Coordinate(0, 0, 0);
+            Speed = speed;
+        }
+        public double FlyTo(Coordinate beginPoint, Coordinate endPoint)
+        {
+            double wayDistance = Math.Sqrt(Math.Pow(endPoint.XAxis - beginPoint.XAxis, 2) + Math.Pow(endPoint.YAxis - beginPoint.YAxis, 2) + Math.Pow(endPoint.ZAxis - beginPoint.ZAxis, 2));
+            if(wayDistance> 1000)
+            {
+                return 0;
+            }
+            else return wayDistance;
+
+        }
+        public double GetFlyTime(Coordinate beginPoint, Coordinate endPoint )
+        {
+            if(FlyTo(beginPoint,endPoint)==0) return 0;
+            else
+            {
+                double tenParts;
+                double flyTime = FlyTo(beginPoint, endPoint) / Speed;
+                tenParts = Convert.ToInt32(flyTime / 0.10);
+                flyTime += tenParts/100;
+                return tenParts/100;
+            }
+            
+        }
     }
     internal class Program
     {
@@ -168,6 +202,29 @@
             Console.WriteLine($"It will take {Airplane.GetFlyTime(BeginPoint, EndPoint)} hours");
         }
 
+        public void DroneRealisation()
+        {
+            var Drone = new Drone(40);
+
+            var BeginPoint = new Coordinate(230, 130, 600);
+
+            var EndPoint = new Coordinate(620, 201, 745);
+
+            Console.WriteLine($"If drone will fly from point {BeginPoint} to point {EndPoint}");
+            Console.WriteLine($"With speed - {Drone.Speed} km/h");
+            if (Drone.FlyTo(BeginPoint, EndPoint) != 0)
+            {
+                Console.WriteLine($"Way distance is {Drone.FlyTo(BeginPoint, EndPoint)} km");
+            }
+            else Console.WriteLine("Way Distance is more than 1000km");
+            if(Drone.GetFlyTime(BeginPoint, EndPoint)!=0)
+            {
+                Console.WriteLine($"It will take {Drone.GetFlyTime(BeginPoint, EndPoint)} hours");
+            }
+            else Console.WriteLine("Way Distance is more than 1000km");
+
+        }
+
         static void Main(string[] args)
         {
             var program = new Program();
@@ -175,6 +232,8 @@
             program.BirdRealistaion();
             Console.WriteLine();
             program.AirplaneRealisation();
+            Console.WriteLine();
+            program.DroneRealisation();
         }
     }
 }
