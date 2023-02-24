@@ -26,16 +26,16 @@
             return sum;
         }
 
-        public static Coordinate operator -(Coordinate minuend, Coordinate substrahend)
+        public static Coordinate operator -(Coordinate reduced, Coordinate subtractor)
         {
             var dif = new Coordinate();
 
-            if (minuend.XAxis < substrahend.XAxis) dif.XAxis = 0; //below zero protection
-            else dif.XAxis = minuend.XAxis - substrahend.XAxis;
-            if (minuend.YAxis < substrahend.YAxis) dif.YAxis = 0; //below zero protection
-            else dif.YAxis = minuend.YAxis - substrahend.YAxis;
-            if (minuend.ZAxis < substrahend.ZAxis) dif.ZAxis = 0; //below zero protection
-            else dif.ZAxis = minuend.ZAxis - substrahend.ZAxis;
+            if (reduced.XAxis < subtractor.XAxis) dif.XAxis = 0; //below zero protection
+            else dif.XAxis = reduced.XAxis - subtractor.XAxis;
+            if (reduced.YAxis < subtractor.YAxis) dif.YAxis = 0; //below zero protection
+            else dif.YAxis = reduced.YAxis - subtractor.YAxis;
+            if (reduced.ZAxis < subtractor.ZAxis) dif.ZAxis = 0; //below zero protection
+            else dif.ZAxis = reduced.ZAxis - subtractor.ZAxis;
 
             return dif;
         }
