@@ -125,7 +125,7 @@
 
         static void Main(string[] args)
         {
-            Program program = new Program();
+            var program = new Program();
 
             program.BirdRealistaion();
         }
